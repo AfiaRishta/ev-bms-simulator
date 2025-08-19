@@ -17,3 +17,8 @@ If your browser blocks downloads:
 ## Notes for Assignment
 - Use **Export CSV** to attach logs to your session notes.
 - Take screenshots of **alerts** and **trends** during fault scenarios.
+“An interactive EV Battery Management System (BMS) Simulator built using HTML, CSS, and vanilla JavaScript. The simulator models real-world EV battery behavior under different driving conditions (idle, city, highway, and hills) and charging states. It provides live telemetry on key parameters such as State of Charge (SoC), State of Health (SoH), voltage, current, power, temperature, speed, and estimated driving range.
+
+The app also includes fault injection features (overheating, sensor noise, cell imbalance, stuck current sensor, etc.) to simulate critical scenarios and study their impact. Real-time charts and logs are generated offline without external libraries, and users can export or copy telemetry data as CSV for further analysis in Excel or other tools.
+
+This project is designed as a lightweight, browser-based tool for learning, demonstrations, and assignments; no server or dependencies required, just open the index.html file and start simulating.”
