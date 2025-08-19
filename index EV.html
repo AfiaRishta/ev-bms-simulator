@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EV Battery Management System (BMS) Simulator — v3</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="app-header">
+  <div class="title">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+      <path d="M13 2L3 14h7l-1 8 11-12h-7l1-8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+    </svg>
+    <h1>EV BMS Simulator</h1>
+    <span class="badge">v3 (offline charts)</span>
+  </div>
+  <div class="links">
+    <span id="runStatus" class="status">Status: Paused</span>
+    <button id="exportBtn" title="Download CSV log">Export CSV</button>
+    <button id="copyBtn" class="secondary" title="Copy CSV to clipboard">Copy CSV</button>
+    <button id="resetBtn" class="secondary">Reset</button>
+    <button id="startBtn" class="primary">Start</button>
+  </div>
+</header>
+
+<main class="container">
+  <section class="card config">
+    <h2>Configuration</h2>
+    <div class="grid two">
+      <label>Drive Profile
+        <select id="profile">
+          <option value="idle">Idle</option>
+          <option value="city" selected>City</option>
+          <option value="highway">Highway</option>
+          <option value="hills">Hills</option>
+        </select>
+      </label>
+
+      <label>Ambient Temp (°C)
+        <input id="ambient" type="number" value="22" step="1"/>
+      </label>
+
+      <label>Pack Capacity (kWh)
+        <input id="capacity" type="number" value="75" step="1" min="20" max="120"/>
+      </label>
+      <label>Nominal Voltage (V)
+        <input id="vnom" type="number" value="400" step="10" min="250" max="900"/>
+      </label>
+
+      <label>Internal Resistance (mΩ)
+        <input id="rint" type="number" value="60" step="5" min="20" max="200"/>
+      </label>
+
+      <label>Vehicle Mass (kg)
+        <input id="mass" type="number" value="2000" step="10" min="800" max="4000"/>
+      </label>
+    </div>
+
+    <details class="faults">
+      <summary>Fault Injection</summary>
+      <div class="grid two">
+        <label><input id="faultHeat" type="checkbox"/> Coolant Pump Failure (Overheat)</label>
+        <label><input id="faultNoise" type="checkbox"/> Sensor Noise Burst</label>
+        <label><input id="faultImb" type="checkbox"/> Cell Imbalance</label>
+        <label><input id="faultStuck" type="checkbox"/> Current Sensor Stuck</label>
+        <label><input id="charger" type="checkbox"/> AC Charger Connected (7 kW)</label>
+      </div>
+    </details>
+  </section>
+
+  <section class="card status">
+    <h2>Live Telemetry</h2>
+    <div class="telemetry-grid">
+      <div class="metric">
+        <div class="label">SoC</div>
+        <div class="gauge">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="54" class="track"></circle>
+            <circle cx="60" cy="60" r="54" class="progress" id="socRing"></circle>
+            <text x="60" y="66" text-anchor="middle" class="gauge-text" id="socText">100%</text>
+          </svg>
+        </div>
+      </div>
+      <div class="kv">
+        <div><span>SoH</span><strong id="soh">100%</strong></div>
+        <div><span>Voltage</span><strong id="voltage">400 V</strong></div>
+        <div><span>Current</span><strong id="current">0 A</strong></div>
+        <div><span>Power</span><strong id="power">0 kW</strong></div>
+        <div><span>Temp</span><strong id="temp">25 °C</strong></div>
+        <div><span>Speed</span><strong id="speed">0 km/h</strong></div>
+        <div><span>Range est.</span><strong id="range">-- km</strong></div>
+        <div><span>State</span><strong id="state">Stopped</strong></div>
+      </div>
+      <div class="cells">
+        <div class="cells-row"><span>Cells</span><strong id="cellStats">96s — min 3.55V / max 4.10V (Δ 0.02V)</strong></div>
+        <div class="alerts" id="alerts">No alerts.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card charts">
+    <h2>Trends (offline-friendly)</h2>
+    <div class="grid two">
+      <canvas id="chartLeft" width="540" height="220"></canvas>
+      <canvas id="chartRight" width="540" height="220"></canvas>
+    </div>
+  </section>
+
+  <section class="card logs">
+    <h2>Event Log</h2>
+    <div class="log" id="log"></div>
+  </section>
+</main>
+
+<footer class="app-footer">
+  <p>Built for learning: HTML + CSS + vanilla JS (no CDN). © 2025</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
